@@ -1,0 +1,52 @@
+@()
+<!DOCTYPE html>
+<html>
+    <body>
+        <h2 align="center">
+            <a href="/Als">点击这里进入ALS推荐算法页面</a>
+        </h2>
+        <h2 align="center">
+            <a href="/DT">点击这里进入决策树算法页面</a>
+        </h2>
+        <h2 align="center">
+            <a href="/RF">
+                点击这里进入随机森林算法页面
+            </a>
+        </h2>
+        <section align="center">
+            <h1>提交测试任务</h1>
+            <form action="/postForm">
+                服务器地址<input type="text" name="masterHost" value="">
+                <br>
+                服务器端口<input type="text" name="masterPort" value="">
+                <br>
+                算法数据地址<input type="text" name="dataPath" value="">
+                <br>
+                算法名称<input type="text" name="name" value="">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+        <br>
+        <section align="center">
+            <h1>执行命令</h1>
+            <form action="/postCmd">
+                服务器地址<input type="text" name="masterHost" value="">
+                <br>
+                服务器端口<input type="text" name="masterPort" value="">
+                <br>
+                命令<input type="text" name="cmd" value="">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+
+        <section>
+            <p align="center">
+                <a href="@routes.TaskController.seeResult">点击这里查看上次计算结果!</a>
+            </p>
+        </section>
+    </body>
+</html>
+
+

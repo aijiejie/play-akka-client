@@ -1,0 +1,75 @@
+@()
+<html>
+    <body>
+        @if(!TaskResult.succeess) {
+            <h1 align="center" style="color: red">
+                测试任务还未完成
+            </h1>
+        } else {
+            <h1 align="center" style="color: chartreuse">
+                测试任务完成
+            </h1>
+
+            <h2 >  测试任务结果: </h2>
+            @TaskResult.result
+        }
+
+
+        @if(!AlsResult.success) {
+            <h1 align="center" style="color: red">
+                ALS任务还未完成
+            </h1>
+        } else {
+            <h1 align="center" style="color: chartreuse">
+                ALS任务完成
+            </h1>
+
+            <h2 align="center" style="color: dodgerblue">  ALS推荐结果地址: @AlsResult.result</h2>
+        }
+
+
+        @if(!DTResult.success) {
+            <h1 align="center" style="color: red">
+                决策树任务还未完成
+            </h1>
+        } else {
+            <h1 align="center" style="color: chartreuse">
+                决策树任务完成
+            </h1>
+
+            <p align="center" style=" color: dodgerblue">
+                决策树模型结果精确度: @DTResult.precison
+                <br>
+                决策树模型保存地址: @DTResult.modelResult
+                <br>
+                决策树预测结果地址: @DTResult.predictResultPath
+            </p>
+        }
+
+        @if(!RFResult.success){
+        <h1 align="center" style="color: red">
+            随机森林任务还未完成
+        </h1>
+        } else {
+            <h1 align="center" style="color: chartreuse">
+                随机森林任务完成
+            </h1>
+
+            <p align="center" style="color: dodgerblue">
+                随机森林模型结果精确度: @RFResult.precison
+                <br>
+                随机森林模型保存地址: @RFResult.modelResult
+                <br>
+                随机森林预测结果地址: @RFResult.predictResultPath
+            </p>
+        }
+
+    <p align="center">
+        <a href="@routes.TaskController.seeResult">点击这里返回查看结果!</a>
+    </p>
+
+    <p align="center">
+        <a href="@routes.TaskController.task">点击这里返回首页!</a>
+    </p>
+    </body>
+</html>

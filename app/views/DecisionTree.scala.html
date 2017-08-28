@@ -1,0 +1,37 @@
+@()
+<!DOCTYPE html>
+<html>
+    <body>
+        <section align="center">
+            <h1>决策树算法任务</h1>
+            @*<p>数据格式为{用户ID，商品ID，评分}</p>*@
+            <form action="/submitDTTask">
+                服务器地址<input type="text" name="DTMasterHost" value="192.168.135.1">
+                <br>
+                服务器端口<input type="text" name="DTMasterPort" value="6666">
+                <br>
+                模型训练集地址<input type="text" name="dtTrainDataPath" value="src/covtype.data">
+                <br>
+                算法预测集地址<input type="text" name="dataPath" value="">
+                <br>
+                模型保存地址<input type="text" name="modelResultPath" value="file:///D:/spark-app/play-scala-starter-example/target/tmp">
+                <br>
+                预测结果保存地址<input type="text" name="resultPath" value="">
+                <br>
+                分类数目<input type="number" name="numClasses" value="7">
+                <br>
+                算法任务名称<input type="text" name="DTName" value="DecisionTree">
+                <br>
+                设置增益方式<input type="text" name="impurity" value="entropy">
+                <br>
+                设置树的深度<input type="number" name="maxDepth" value="20">
+                <br>
+                设置最大桶数<input type="number" name="maxBins" value="150">
+                <br>
+                设置数据分隔符<input type="text" name="Delimiter" value=",">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+    </body>
+</html>
