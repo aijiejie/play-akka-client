@@ -1,0 +1,28 @@
+@()
+<html>
+    <body>
+        <section align="center">
+            <h1>SVM算法任务</h1>
+            <p>数据格式为{Label 1:value 2:value}</p>
+            <form action="/submitSvmTask">
+                服务器地址<input type="text" name="svmMasterHost" value="">
+                <br>
+                服务器端口<input type="text" name="svmMasterPort" value="">
+                <br>
+                算法训练集路径<input type="text" name="svmTrainDataPath" value="src/sample_libsvm_data.txt">
+                <br>
+                算法预测集路径<input type="text" name="svmPredictDataPath" value="">
+                <br>
+                算法模型保存路径<input type="text" name="svmModelResultPath" value="">
+                <br>
+                算法预测结果保存路径<input type="text" name="svmPredictResultPath" value="">
+                <br>
+                算法任务名称<input type="text" name="svmName" value="SVM">
+                <br>
+                设置算法迭代次数<input type="number" name="numIterations" value="100">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+    </body>
+</html>

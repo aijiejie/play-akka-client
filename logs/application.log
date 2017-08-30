@@ -1,9 +1,9 @@
-2017-08-30 15:13:01,991 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - ApplicationTimer demo: Starting application at 2017-08-30T07:13:01.988Z.
-2017-08-30 15:13:03,366 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-6 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2017-08-30 16:31:26,215 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-2 - ApplicationTimer demo: Starting application at 2017-08-30T08:31:26.212Z.
+2017-08-30 16:31:27,353 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-2 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.csrf.CSRFFilter
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
     filters.ExampleFilter
 
-2017-08-30 15:13:03,372 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-6 - Application started (Dev)
+2017-08-30 16:31:27,361 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-2 - Application started (Dev)
