@@ -16,3 +16,8 @@ case class RFTask(rfMasterHost: String, rfMasterPort: String, rfTrainDataPath: S
                   modelResultPath: String,resultPath:String, numClasses: Int,numTrees:Int, rfName: String,
                   featureSubsetStrategy:String,impurity: String, maxDepth: Int, maxBins:Int, Delimiter:String) extends RemoteMessage
 case class RFTaskResult(modelResult:String,precison:String,predictResultPath:String) extends RemoteMessage
+//SVM消息
+case class SvmTask(svmMasterHost:String,svmMasterPort:String,svmTrainDataPath:String,
+                     svmPredictDataPath:String,svmModelResultPath:String,svmPredictResultPath:String,
+                     name:String,iter:Int)
+case class SvmTaskResult(auROC:Double, svmModelResultPath:String,svmPredictResultPath:String)

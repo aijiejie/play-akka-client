@@ -5,7 +5,7 @@ import javax.inject.{Inject, Singleton}
 import actors._
 import akka.actor.{ActorRef, ActorSystem}
 import com.typesafe.config.{Config, ConfigFactory}
-import models.{AlsResult, DTResult, RFResult, TaskResult}
+import models._
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
@@ -41,7 +41,7 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
   //Als表单结构
   case class AlsForm(alsMasterHost: String, alsMasterPort: String, alsDataPath: String,
                      alsResultPath: String, alsResultNumber: Int, alsName: String,
-                     alsRank: Int, numIterations: Int,Delimiter:String) extends Serializable
+                     alsRank: Int, numIterations: Int, Delimiter: String) extends Serializable
 
   val alsFrom = Form(
     mapping(
@@ -58,9 +58,9 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
   )
 
   //决策树表单
-  case class DTForm(DTMasterHost: String, DTMasterPort: String, dtTrainDataPath: String, dataPath:String,
-                    modelResultPath: String, resultPath:String, numClasses: Int, DTName: String,
-                    impurity: String, maxDepth: Int, maxBins:Int, Delimiter:String) extends Serializable
+  case class DTForm(DTMasterHost: String, DTMasterPort: String, dtTrainDataPath: String, dataPath: String,
+                    modelResultPath: String, resultPath: String, numClasses: Int, DTName: String,
+                    impurity: String, maxDepth: Int, maxBins: Int, Delimiter: String) extends Serializable
 
   val dtFrom = Form(
     mapping(
@@ -80,8 +80,8 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
   )
 
   //随机森林表单
-  case class RFForm(rfMasterHost:String,rfMasterPort:String,rfTrainDataPath:String,dataPath:String,modelResultPath:String,resultPath:String,
-                    numClasses:Int,numTrees:Int,rfName:String,featureSubsetStrategy:String,impurity:String,maxDepth:Int,maxBins:Int,Delimiter:String) extends Serializable
+  case class RFForm(rfMasterHost: String, rfMasterPort: String, rfTrainDataPath: String, dataPath: String, modelResultPath: String, resultPath: String,
+                    numClasses: Int, numTrees: Int, rfName: String, featureSubsetStrategy: String, impurity: String, maxDepth: Int, maxBins: Int, Delimiter: String) extends Serializable
 
   val rfFrom = Form(
     mapping(
@@ -166,7 +166,7 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       Ok(views.html.Als.render())
   }
 
-  //ALS处理
+  //ALS任务提交
   def submitAlsTask = Action {
     implicit request =>
       val alsData = alsFrom.bindFromRequest.get
@@ -182,8 +182,8 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       var server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Server")
       server.tell("connect", clientActor)
       AlsResult.success = false
-      AlsResult.result =  dataResultPath
-      server.tell(AlsTask(masterHost, masterPort, datapath,dataResultPath,alsRseultNumber, name, rank, iter,delimiter), clientActor)
+      AlsResult.result = dataResultPath
+      server.tell(AlsTask(masterHost, masterPort, datapath, dataResultPath, alsRseultNumber, name, rank, iter, delimiter), clientActor)
       Ok(views.html.submit(s"已提交ALS算法任务,任务名$name"))
   }
 
@@ -192,13 +192,14 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
     implicit request =>
       Ok(views.html.DecisionTree.render())
   }
-//决策树任务处理
+
+  //决策树任务提交
   def submitDTTask = Action {
     implicit request =>
       val dtData = dtFrom.bindFromRequest.get
       val masterHost = dtData.DTMasterHost
       val masterPort = dtData.DTMasterPort
-      val dtTrainData =  dtData.dtTrainDataPath
+      val dtTrainData = dtData.dtTrainDataPath
       val predictData = dtData.dataPath
       val modelResult = dtData.modelResultPath
       val result = dtData.resultPath
@@ -212,8 +213,8 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       //var server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Supervisor")
       server.tell("connect", clientActor)
       DTResult.success = false
-      server.tell(DTTask(masterHost, masterPort, dtTrainData,predictData, modelResult,result,
-                          numClasses, name, impurity, maxDepth,maxBins ,delimiter),clientActor)
+      server.tell(DTTask(masterHost, masterPort, dtTrainData, predictData, modelResult, result,
+        numClasses, name, impurity, maxDepth, maxBins, delimiter), clientActor)
       Ok(views.html.submit(s"已提交决策树算法任务,任务名$name"))
   }
 
@@ -223,12 +224,14 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
     implicit request =>
       Ok(views.html.RandomForest.render())
   }
+
+  //随机森林任务提交
   def submitRfTask = Action {
     implicit request =>
       val rfData = rfFrom.bindFromRequest.get
       val masterHost = rfData.rfMasterHost
       val masterPort = rfData.rfMasterPort
-      val rfTrainData =  rfData.rfTrainDataPath
+      val rfTrainData = rfData.rfTrainDataPath
       val predictData = rfData.dataPath
       val modelResult = rfData.modelResultPath
       val result = rfData.resultPath
@@ -244,9 +247,54 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       //var server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Supervisor")
       server.tell("connect", clientActor)
       RFResult.success = false
-      server.tell(RFTask(masterHost, masterPort, rfTrainData,predictData, modelResult,result,
-        numClasses,numTrees ,name,featureSubsetStrategy, impurity, maxDepth,maxBins ,delimiter),clientActor)
+      server.tell(RFTask(masterHost, masterPort, rfTrainData, predictData, modelResult, result,
+        numClasses, numTrees, name, featureSubsetStrategy, impurity, maxDepth, maxBins, delimiter), clientActor)
       Ok(views.html.submit(s"已提交随机森林算法任务,任务名$name"))
   }
 
+
+  //SVM表单
+  case class SvmForm(svmMasterHost: String, svmMasterPort: String, svmTrainDataPath: String,
+                     svmPredictDataPath: String, svmModelResultPath:String,svmPredictResultPath: String, svmName: String,
+                     numIterations: Int) extends Serializable
+
+  val svmFrom = Form(
+    mapping(
+      "svmMasterHost" -> nonEmptyText,
+      "svmMasterPort" -> nonEmptyText,
+      "svmTrainDataPath" -> nonEmptyText,
+      "svmPredictDataPath" -> text,
+      "svmModelResultPath" -> text,
+      "svmPredictResultPath" -> text,
+      "svmName" -> nonEmptyText,
+      "numIterations" -> number
+    )(SvmForm.apply)(SvmForm.unapply)
+  )
+
+  def svm = Action {
+    implicit request =>
+      Ok(views.html.svm.render())
+  }
+
+
+  def submitSvmTask = Action {
+    implicit request =>
+      val svmData = svmFrom.bindFromRequest.get
+      val svmMasterHost = svmData.svmMasterHost
+      val svmMasterPort = svmData.svmMasterPort
+      val svmTrainDataPath = svmData.svmTrainDataPath
+      val svmPredictDataPath = svmData.svmPredictDataPath
+      val svmModelResultPath = svmData.svmModelResultPath
+      val svmPredictResultPath = svmData.svmPredictResultPath
+      val name = svmData.svmName
+      val iter = svmData.numIterations
+      var server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$svmMasterHost:$svmMasterPort/user/Server")
+      server.tell("connect", clientActor)
+      SvmResult.success = false
+      SvmResult.modelResult = svmModelResultPath
+      server.tell(SvmTask(svmMasterHost,svmMasterPort,svmTrainDataPath,
+        svmPredictDataPath,svmModelResultPath,svmPredictResultPath,
+        name,iter), clientActor)
+      Ok(views.html.submit(s"已提交SVM算法任务,任务名$name"))
+  }
 }

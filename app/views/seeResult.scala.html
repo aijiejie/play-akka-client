@@ -64,6 +64,24 @@
             </p>
         }
 
+        @if(!SvmResult.success){
+            <h1 align="center" style="color: red">
+                SVM任务还未完成
+            </h1>
+        } else {
+            <h1 align="center" style="color: chartreuse">
+                SVM任务完成
+            </h1>
+
+            <p align="center" style="color: dodgerblue">
+                SVM模型auROC: @SvmResult.auROC
+                <br>
+                SVM模型保存地址: @SvmResult.modelResult
+                <br>
+                SVM预测结果地址: @SvmResult.predictResultPath
+            </p>
+        }
+
     <p align="center">
         <a href="@routes.TaskController.seeResult">点击这里返回查看结果!</a>
     </p>
