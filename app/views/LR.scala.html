@@ -1,0 +1,28 @@
+@()
+<html>
+    <body>
+        <section align="center">
+            <h1>LR算法任务</h1>
+            <p>数据格式为{Label 1:value 2:value}</p>
+            <form action="/submitLRTask">
+                服务器地址<input type="text" name="lrMasterHost" value="">
+                <br>
+                服务器端口<input type="text" name="lrMasterPort" value="">
+                <br>
+                算法训练集路径<input type="text" name="lrTrainDataPath" value="src/sample_libsvm_data.txt">
+                <br>
+                算法预测集路径<input type="text" name="lrPredictDataPath" value="">
+                <br>
+                算法模型保存路径<input type="text" name="lrModelResultPath" value="">
+                <br>
+                算法预测结果保存路径<input type="text" name="lrPredictResultPath" value="">
+                <br>
+                算法任务名称<input type="text" name="lrName" value="LR">
+                <br>
+                设置算法迭代次数<input type="number" name="numIterations" value="10">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+    </body>
+</html>

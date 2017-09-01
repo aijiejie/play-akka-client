@@ -21,3 +21,8 @@ case class SvmTask(svmMasterHost:String,svmMasterPort:String,svmTrainDataPath:St
                      svmPredictDataPath:String,svmModelResultPath:String,svmPredictResultPath:String,
                      name:String,iter:Int)
 case class SvmTaskResult(auROC:Double, svmModelResultPath:String,svmPredictResultPath:String)
+//LR消息
+case class LRTask(lrMasterHost:String,lrMasterPort:String,lrTrainDataPath:String,
+                  lrPredictDataPath:String,lrModelResultPath:String,lrPredictResultPath:String,
+                   name:String,iter:Int)
+case class LRTaskResult(auROC:Double, lrModelResultPath:String,lrPredictResultPath:String)

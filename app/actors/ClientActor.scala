@@ -27,6 +27,7 @@ class ClientActor() extends Actor {
       TaskResult.result = result
       println("测试任务完成")
     }
+
     //ALS任务
     case "收到ALS算法任务" => {
       AlsResult.submit = true
@@ -35,6 +36,7 @@ class ClientActor() extends Actor {
     case "ALS推荐算法任务成功结束" => {
       AlsResult.success = true
     }
+
     //决策树任务
     case "收到决策树任务" => {
       DTResult.submit = true
@@ -46,7 +48,6 @@ class ClientActor() extends Actor {
       DTResult.precison = precison
       DTResult.predictResultPath = predictResultPath
     }
-
 
     //随机森林任务
     case "收到随机森林任务" => {
@@ -60,16 +61,27 @@ class ClientActor() extends Actor {
       RFResult.predictResultPath = presictResult
     }
 
-      //SVM任务
-    case "收到SVM任务" =>{
+    //SVM任务
+    case "收到SVM任务" => {
       SvmResult.submit = true
       println("SVM任务发送成功")
     }
-    case SvmTaskResult(result,svmModelResultPath,svmPredictResultPath)=>{
+    case SvmTaskResult(result, svmModelResultPath, svmPredictResultPath) => {
       SvmResult.success = true
       SvmResult.modelResult = svmModelResultPath
       SvmResult.predictResultPath = svmPredictResultPath
       SvmResult.auROC = result
+    }
+    //LR任务
+    case "收到LR任务" => {
+      LRResult.submit = true
+      println("LR任务发送成功")
+    }
+    case LRTaskResult(result, lrModelResultPath, lrPredictResultPath) => {
+      LRResult.success = true
+      LRResult.modelResult = lrModelResultPath
+      LRResult.predictResultPath = lrPredictResultPath
+      LRResult.accuracy = result
     }
     case string: String => {
       println(string)

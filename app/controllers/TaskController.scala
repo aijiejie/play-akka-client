@@ -115,9 +115,9 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
   val clientActor: ActorRef = actorSystem.actorOf(ClientActor.props, "client")
 
   //开始页面
-  def task = Action {
+  def task(name:String ) = Action {
     implicit request =>
-      Ok(views.html.task.render())
+      Ok(views.html.task(name))
   }
 
   //提交测试处理
@@ -132,13 +132,13 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       server.tell("connect", clientActor)
       TaskResult.succeess = false
       server.tell(ClientSubmitTask(datapath, name), clientActor)
-      Ok(views.html.submit(s"已提交$name 算法"))
+      Ok(views.html.submit(s"已提交$name 算法","test"))
   }
 
   //查看算法结果
-  def seeResult = Action {
+  def seeResult(name:String) = Action {
     implicit request =>
-      Ok(views.html.seeResult())
+      Ok(views.html.seeResult.render(name))
   }
 
   //提交命令处理
@@ -184,7 +184,7 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       AlsResult.success = false
       AlsResult.result = dataResultPath
       server.tell(AlsTask(masterHost, masterPort, datapath, dataResultPath, alsRseultNumber, name, rank, iter, delimiter), clientActor)
-      Ok(views.html.submit(s"已提交ALS算法任务,任务名$name"))
+      Ok(views.html.submit(s"已提交ALS算法任务,任务名$name","als"))
   }
 
   //决策树初始页面
@@ -215,7 +215,7 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       DTResult.success = false
       server.tell(DTTask(masterHost, masterPort, dtTrainData, predictData, modelResult, result,
         numClasses, name, impurity, maxDepth, maxBins, delimiter), clientActor)
-      Ok(views.html.submit(s"已提交决策树算法任务,任务名$name"))
+      Ok(views.html.submit(s"已提交决策树算法任务,任务名$name","dt"))
   }
 
 
@@ -249,14 +249,14 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       RFResult.success = false
       server.tell(RFTask(masterHost, masterPort, rfTrainData, predictData, modelResult, result,
         numClasses, numTrees, name, featureSubsetStrategy, impurity, maxDepth, maxBins, delimiter), clientActor)
-      Ok(views.html.submit(s"已提交随机森林算法任务,任务名$name"))
+      Ok(views.html.submit(s"已提交随机森林算法任务,任务名$name","rf"))
   }
 
 
   //SVM表单
   case class SvmForm(svmMasterHost: String, svmMasterPort: String, svmTrainDataPath: String,
                      svmPredictDataPath: String, svmModelResultPath:String,svmPredictResultPath: String, svmName: String,
-                     numIterations: Int) extends Serializable
+                     numIterations: Int)
 
   val svmFrom = Form(
     mapping(
@@ -270,7 +270,7 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       "numIterations" -> number
     )(SvmForm.apply)(SvmForm.unapply)
   )
-
+//SVM响应
   def svm = Action {
     implicit request =>
       Ok(views.html.svm.render())
@@ -295,6 +295,51 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       server.tell(SvmTask(svmMasterHost,svmMasterPort,svmTrainDataPath,
         svmPredictDataPath,svmModelResultPath,svmPredictResultPath,
         name,iter), clientActor)
-      Ok(views.html.submit(s"已提交SVM算法任务,任务名$name"))
+      Ok(views.html.submit(s"已提交SVM算法任务,任务名$name","svm"))
+  }
+
+  //LR表单
+  case class LRForm(lrMasterHost: String, lrMasterPort: String, lrTrainDataPath: String,
+                    lrPredictDataPath: String, lrModelResultPath:String,lrPredictResultPath: String, lrName: String,
+                     numIterations: Int)
+
+  val lrFrom = Form(
+    mapping(
+      "lrMasterHost" -> nonEmptyText,
+      "lrMasterPort" -> nonEmptyText,
+      "lrTrainDataPath" -> nonEmptyText,
+      "lrPredictDataPath" -> text,
+      "lrModelResultPath" -> text,
+      "lrPredictResultPath" -> text,
+      "lrName" -> nonEmptyText,
+      "numIterations" -> number
+    )(LRForm.apply)(LRForm.unapply)
+  )
+
+  //LR响应
+  def lr = Action {
+    implicit request =>
+      Ok(views.html.LR.render())
+  }
+
+  def submitLRTask = Action {
+    implicit request =>
+      val lrData = lrFrom.bindFromRequest.get
+      val lrMasterHost = lrData.lrMasterHost
+      val lrMasterPort = lrData.lrMasterPort
+      val lrTrainDataPath = lrData.lrTrainDataPath
+      val lrPredictDataPath = lrData.lrPredictDataPath
+      val lrModelResultPath = lrData.lrModelResultPath
+      val lrPredictResultPath = lrData.lrPredictResultPath
+      val name = lrData.lrName
+      val iter = lrData.numIterations
+      var server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$lrMasterHost:$lrMasterPort/user/Server")
+      server.tell("connect", clientActor)
+      LRResult.success = false
+      LRResult.modelResult = lrModelResultPath
+      server.tell(LRTask(lrMasterHost,lrMasterPort,lrTrainDataPath,
+        lrPredictDataPath,lrModelResultPath,lrPredictResultPath,
+        name,iter), clientActor)
+      Ok(views.html.submit(s"已提交SVM算法任务,任务名$name","lr"))
   }
 }
