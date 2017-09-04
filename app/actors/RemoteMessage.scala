@@ -26,3 +26,8 @@ case class LRTask(lrMasterHost:String,lrMasterPort:String,lrTrainDataPath:String
                   lrPredictDataPath:String,lrModelResultPath:String,lrPredictResultPath:String,
                    name:String,iter:Int)
 case class LRTaskResult(auROC:Double, lrModelResultPath:String,lrPredictResultPath:String)
+//决策树回归消息
+case class DTRTask(DTRMasterHost: String, DTRMasterPort: String, dtrTrainDataPath: String,predictDataPath:String,
+                  modelResultPath: String,predictResultPath:String, DTRName: String,
+                  impurity: String, maxDepth: Int, maxBins:Int) extends RemoteMessage
+case class DTRTaskResult(modelResult:String,precison:String,predictResultPath:String) extends RemoteMessage

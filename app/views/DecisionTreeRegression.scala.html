@@ -1,0 +1,33 @@
+@()
+<!DOCTYPE html>
+<html>
+    <body>
+        <section align="center">
+            <h1>决策树回归算法任务</h1>
+            @*<p>数据格式为{用户ID，商品ID，评分}</p>*@
+            <form action="/submitDTRTask">
+                服务器地址<input type="text" name="DTRMasterHost" value="192.168.135.1">
+                <br>
+                服务器端口<input type="text" name="DTRMasterPort" value="6666">
+                <br>
+                模型训练集地址<input type="text" name="dtrTrainDataPath" value="src/sample_libsvm_data.txt">
+                <br>
+                算法预测集地址<input type="text" name="predictDataPath" value="">
+                <br>
+                模型保存地址<input type="text" name="modelResultPath" value="">
+                <br>
+                预测结果保存地址<input type="text" name="predictResultPath" value="">
+                <br>
+                算法任务名称<input type="text" name="DTRName" value="DecisionTreeRegression">
+                <br>
+                设置增益方式<input type="text" name="impurity" value="variance">
+                <br>
+                设置树的深度<input type="number" name="maxDepth" value="5">
+                <br>
+                设置最大桶数<input type="number" name="maxBins" value="32">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+    </body>
+</html>

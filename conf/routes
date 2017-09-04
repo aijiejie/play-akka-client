@@ -25,3 +25,5 @@ GET     /SVM                        controllers.TaskController.svm
 GET     /submitSvmTask              controllers.TaskController.submitSvmTask
 GET     /LR                         controllers.TaskController.lr
 GET     /submitLRTask               controllers.TaskController.submitLRTask
+GET     /DTR                        controllers.TaskController.DTR
+GET     /submitDTRTask              controllers.TaskController.submitDTRTask

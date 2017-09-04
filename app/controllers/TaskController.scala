@@ -212,12 +212,59 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       val server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Server") //无监督创建actor
       //var server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Supervisor")
       server.tell("connect", clientActor)
-      DTResult.success = false
+      DTRResult.success = false
       server.tell(DTTask(masterHost, masterPort, dtTrainData, predictData, modelResult, result,
         numClasses, name, impurity, maxDepth, maxBins, delimiter), clientActor)
       Ok(views.html.submit(s"已提交决策树算法任务,任务名$name","dt"))
   }
 
+  //决策树回归表单
+  case class DTRForm(DTRMasterHost: String, DTRMasterPort: String, dtrTrainDataPath: String, predictDataPath: String,
+                     modelResultPath: String, predictResultPath: String , DTRName: String,
+                    impurity: String, maxDepth: Int, maxBins: Int)
+
+  val dtrFrom = Form(
+    mapping(
+      "DTRMasterHost" -> nonEmptyText,
+      "DTRMasterPort" -> nonEmptyText,
+      "dtrTrainDataPath" -> nonEmptyText,
+      "predictDataPath" -> text,
+      "modelResultPath" -> text,
+      "predictResultPath" -> text,
+      "DTRName" -> nonEmptyText,
+      "impurity" -> text,
+      "maxDepth" -> number,
+      "maxBins" -> number
+    )(DTRForm.apply)(DTRForm.unapply)
+  )
+
+  //决策树回归页面
+  def DTR = Action {
+    implicit request =>
+      Ok(views.html.DecisionTreeRegression.render())
+  }
+  //决策树回归任务提交
+  def submitDTRTask = Action {
+    implicit request =>
+      val dtrData = dtrFrom.bindFromRequest.get
+      val masterHost = dtrData.DTRMasterHost
+      val masterPort = dtrData.DTRMasterPort
+      val dtTrainData = dtrData.dtrTrainDataPath
+      val predictData = dtrData.predictDataPath
+      val modelResult = dtrData.modelResultPath
+      val result = dtrData.predictResultPath
+      val name = dtrData.DTRName
+      val impurity = dtrData.impurity
+      val maxBins = dtrData.maxBins
+      val maxDepth = dtrData.maxDepth
+      val server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Server") //无监督创建actor
+      //var server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Supervisor")
+      server.tell("connect", clientActor)
+      DTRResult.success = false
+      server.tell(DTRTask(masterHost, masterPort, dtTrainData, predictData, modelResult, result
+        , name, impurity, maxDepth, maxBins), clientActor)
+      Ok(views.html.submit(s"已提交决策树回归算法任务,任务名$name","dtr"))
+  }
 
   //随机森林初始页面
   def RF = Action {

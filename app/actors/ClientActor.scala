@@ -39,14 +39,14 @@ class ClientActor() extends Actor {
 
     //决策树任务
     case "收到决策树任务" => {
-      DTResult.submit = true
+      DTRResult.submit = true
       println("决策树任务提交成功")
     }
     case DTTaskResult(modelResult, precison, predictResultPath) => {
-      DTResult.success = true
-      DTResult.modelResult = modelResult
-      DTResult.precison = precison
-      DTResult.predictResultPath = predictResultPath
+      DTRResult.success = true
+      DTRResult.modelResult = modelResult
+      DTRResult.testMSE = precison
+      DTRResult.predictResultPath = predictResultPath
     }
 
     //随机森林任务
@@ -82,6 +82,17 @@ class ClientActor() extends Actor {
       LRResult.modelResult = lrModelResultPath
       LRResult.predictResultPath = lrPredictResultPath
       LRResult.accuracy = result
+    }
+    //决策树回归任务
+    case "收到决策树回归任务" => {
+      DTRResult.submit = true
+      println("决策树任务提交成功")
+    }
+    case DTRTaskResult(modelResult, testMSE, predictResultPath) => {
+      DTRResult.success = true
+      DTRResult.modelResult = modelResult
+      DTRResult.testMSE = testMSE
+      DTRResult.predictResultPath = predictResultPath
     }
     case string: String => {
       println(string)
