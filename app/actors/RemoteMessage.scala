@@ -31,3 +31,8 @@ case class DTRTask(DTRMasterHost: String, DTRMasterPort: String, dtrTrainDataPat
                   modelResultPath: String,predictResultPath:String, DTRName: String,
                   impurity: String, maxDepth: Int, maxBins:Int) extends RemoteMessage
 case class DTRTaskResult(modelResult:String,precison:String,predictResultPath:String) extends RemoteMessage
+//线性回归消息
+case class LinerRegressionTask(lineRMasterHost: String, lineRMasterPort: String, lineRTrainDataPath: String,
+                               lineRPredictDataPath: String, lineRModelResultPath: String, lineRPredictResultPath: String,
+                               lineRName: String, numIterations: Int,delimiter:String ,stepSize:BigDecimal )
+case class LinerRegressionTaskResult(MSE:Double,ModelResultPath:String ,PredictResultPath:String )

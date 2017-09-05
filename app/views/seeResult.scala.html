@@ -106,7 +106,27 @@
                 </p>
             }
         }
-    @*决策树回归*@
+            @*线性回归*@
+        @if(name == "linerR") {
+            @if(!LinerRegressionResult.success) {
+                <h1 align="center" style="color: red">
+                    线性回归任务还未完成
+                </h1>
+            } else {
+                <h1 align="center" style="color: chartreuse">
+                    线性回归任务完成
+                </h1>
+
+                <p align="center" style="color: dodgerblue">
+                    线性回归模型均方误差: @LinerRegressionResult.MSE
+                    <br>
+                    线性回归模型保存地址: @LinerRegressionResult.modelResult
+                    <br>
+                    线性回归预测结果地址: @LinerRegressionResult.predictResultPath
+                </p>
+            }
+        }
+            @*决策树回归*@
         @if(name == "dtr") {
             @if(!DTRResult.success) {
                 <h1 align="center" style="color: red">
@@ -128,12 +148,12 @@
         }
 
 
-    <p align="center">
-        <a href="@routes.TaskController.seeResult(name)">刷新结果!</a>
-    </p>
+            <p align="center">
+                <a href="@routes.TaskController.seeResult(name)">刷新结果!</a>
+            </p>
 
-    <p align="center">
-        <a href="@routes.TaskController.task(name)">点击这里返回首页!</a>
+            <p align="center">
+                <a href="@routes.TaskController.task(name)">点击这里返回首页!</a>
     </p>
     </body>
 </html>

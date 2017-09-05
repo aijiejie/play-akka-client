@@ -27,3 +27,5 @@ GET     /LR                         controllers.TaskController.lr
 GET     /submitLRTask               controllers.TaskController.submitLRTask
 GET     /DTR                        controllers.TaskController.DTR
 GET     /submitDTRTask              controllers.TaskController.submitDTRTask
+GET     /LineR                      controllers.TaskController.lineR
+GET     /submitLineRTask            controllers.TaskController.submitLineRTask

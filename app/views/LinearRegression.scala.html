@@ -1,0 +1,32 @@
+@()
+<html>
+    <body>
+        <section align="center">
+            <h1>线性回归算法任务</h1>
+            @*<p>数据格式为{Label,value1 value2 ...}</p>*@
+            <form action="/submitLineRTask">
+                服务器地址<input type="text" name="lineRMasterHost" value="">
+                <br>
+                服务器端口<input type="text" name="lineRMasterPort" value="">
+                <br>
+                算法训练集路径<input type="text" name="lineRTrainDataPath" value="src/lpsa.data">
+                <br>
+                算法预测集路径<input type="text" name="lineRPredictDataPath" value="">
+                <br>
+                算法模型保存路径<input type="text" name="lineRModelResultPath" value="">
+                <br>
+                算法预测结果保存路径<input type="text" name="lineRPredictResultPath" value="">
+                <br>
+                算法任务名称<input type="text" name="lineRName" value="线性回归">
+                <br>
+                设置算法迭代次数<input type="number" name="numIterations" value="100">
+                <br>
+                设置数据分隔符<input type="text" name="delimiter" value=",">
+                <br>
+                设置下降步长<input type="bigDecimal" name="stepSize" value="0.00000001">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+    </body>
+</html>

@@ -94,6 +94,17 @@ class ClientActor() extends Actor {
       DTRResult.testMSE = testMSE
       DTRResult.predictResultPath = predictResultPath
     }
+    //线性回归任务
+    case "收到线性回归任务" => {
+      LinerRegressionResult.submit = true
+      println("线性回归任务提交成功")
+    }
+    case LinerRegressionTaskResult(mse,linerRModelResultPath,linerRPredictResultPath) =>{
+      LinerRegressionResult.success = true
+      LinerRegressionResult.modelResult = linerRModelResultPath
+      LinerRegressionResult.predictResultPath = linerRPredictResultPath
+      LinerRegressionResult.MSE = mse
+    }
     case string: String => {
       println(string)
     }
