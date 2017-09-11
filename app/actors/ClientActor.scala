@@ -39,14 +39,14 @@ class ClientActor() extends Actor {
 
     //决策树任务
     case "收到决策树任务" => {
-      DTRResult.submit = true
+      DTResult.submit = true
       println("决策树任务提交成功")
     }
     case DTTaskResult(modelResult, precison, predictResultPath) => {
-      DTRResult.success = true
-      DTRResult.modelResult = modelResult
-      DTRResult.testMSE = precison
-      DTRResult.predictResultPath = predictResultPath
+      DTResult.success = true
+      DTResult.modelResult = modelResult
+      DTResult.accuracy = precison
+      DTResult.predictResultPath = predictResultPath
     }
 
     //随机森林任务

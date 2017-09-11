@@ -212,7 +212,7 @@ class TaskController @Inject()(cc: ControllerComponents, system: ActorSystem) ex
       val server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Server") //无监督创建actor
       //var server = actorSystem.actorSelection(s"akka.tcp://MasterActor@$masterHost:$masterPort/user/Supervisor")
       server.tell("connect", clientActor)
-      DTRResult.success = false
+      DTResult.success = false
       server.tell(DTTask(masterHost, masterPort, dtTrainData, predictData, modelResult, result,
         numClasses, name, impurity, maxDepth, maxBins, delimiter), clientActor)
       Ok(views.html.submit(s"已提交决策树算法任务,任务名$name", "dt"))
